@@ -4,17 +4,17 @@ import matplotlib.pyplot as plt
 import os
 import cv2
 import random
-import functions as f
+
 
 # Taille des images
-#IMG_SIZE = 829
+# IMG_SIZE = 829
 
 
 # Charger une image
 
 def load_image(path):
     img = cv2.imread(path)
-    #img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
+    # img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
     return img
 
 # Afficher une image
@@ -44,8 +44,7 @@ def hough_transform(img, edges):
     binary one) and it should have the same size as image
     :return: the lines detected in the image.
     """
-
-    lignes = cv2.HoughLines(edges, 1, np.pi/180, int(np.trunc(img.shape[0]/3.5)))
+    lignes = cv2.HoughLines(edges, 1, np.pi/180, int(np.trunc(img.shape/4, 5)))
 
     if lignes is None:
         print("No lines detected in the image")
@@ -80,22 +79,3 @@ def recognize_symbol(img):
 
 def recognize_end(img):
     pass
-
-# Main
-
-
-def main():
-
-    #for image in os.listdir('./src/img'):
-    #    print(image.n)
-        
-    test_img = f.load_image('./src/img/tictactoe2.png')
-    image = load_image('./src/img/image.png')
-    
-    edges = canny(image)
-    #show_image(edges)
-    hough_transform(image, edges)
-
-
-
-main()
