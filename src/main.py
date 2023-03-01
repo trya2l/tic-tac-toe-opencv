@@ -71,15 +71,34 @@ def hough_transform(img, edges):
     cv2.imread('houghlines3.jpg')
     cv2.imshow('houghlines3.jpg', img)
     cv2.waitKey(0)
+
+    startGame(img, lignes_detected)
     return lignes_detected
 
-# Création de la grille avec les lignes détectées
-def create_grid(img, lignes_detected):
+
+def startGame(img, lignes_detected):
     morpion = ttt.tictactoe(lignes_detected/2, lignes_detected/2)
     morpion.show_grid(morpion.grid)
-    return morpion.grid
+    while(morpion.is_end(morpion.grid) == False):
+        morpion.show_grid(morpion.grid)
+        print("C'est au tour du joueur 1")
+        line = int(input("Entrez la ligne : "))
+        column = int(input("Entrez la colonne : "))
+        morpion.grid = morpion.add_symbol(morpion.grid, line, column, 1)
+        morpion.show_grid(morpion.grid)
+        if morpion.is_end(morpion.grid) == True:
+            break
+        print("C'est au tour du joueur 2")
+        line = int(input("Entrez la ligne : "))
+        column = int(input("Entrez la colonne : "))
+        morpion.grid = morpion.add_symbol(morpion.grid, line, column, 2)
+    morpion.show_grid(morpion.grid)
+    print("Fin de la partie")
+
 
 # Reconnaissance de symboles, soit X soit O dans une case de la grille
+
+
 def recognize_symbol(img):
     dim = img.size
     cv2.imshow('base', img)
@@ -88,12 +107,14 @@ def recognize_symbol(img):
     img = cv2.medianBlur(img, 5)
 
     cercles = cv2.HoughCircles(
-        img, cv2.HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=dim/9-, maxRadius=0)
+        img, cv2.HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=int(dim/9-dim/5), maxRadius=int(dim/9+dim/5))
 
     cercles = np.uint16(np.around(cercles))
     for i in cercles[0, :]:
-        cv2.circle(imgBase, (i[0], i[1]), i[2], (0, 255, 0), 2)     # périmètre du cercle
-        cv2.circle(imgBase, (i[0], i[1]), 2, (0, 0, 255), 3)        # centre du cercle
+        cv2.circle(imgBase, (i[0], i[1]), i[2],
+                   (0, 255, 0), 2)     # périmètre du cercle
+        # centre du cercle
+        cv2.circle(imgBase, (i[0], i[1]), 2, (0, 0, 255), 3)
 
     cv2.imshow('cercles detectes', imgBase)
     cv2.waitKey(0)
@@ -131,8 +152,8 @@ def main():
 
     edges = canny(image)
     # show_image(edges)
-    #hough_transform(image, edges)
-    recognize_symbol(image)
+    hough_transform(image, edges)
+    #recognize_symbol(image)
     #print(hough_transform(image, edges))
 
 

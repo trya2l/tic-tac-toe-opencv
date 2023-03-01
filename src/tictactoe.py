@@ -19,16 +19,6 @@ class tictactoe:
         self.grid = self.create_grid(nb_lines, nb_columns)
 
 
-    def create_grid(self, nb_lines, nb_columns):
-        """
-        It creates a grid of zeros of dimensions nb_lines x nb_columns
-
-        :param nb_lines: number of lines in the grid
-        :param nb_columns: number of columns in the grid
-        :return: A grid of zeros.
-        """
-        grid = np.zeros((nb_lines, nb_columns))
-        return grid
 
     def show_grid(self, grid):
         """
@@ -38,7 +28,7 @@ class tictactoe:
         2 represents a goal
         """
         print(grid)
-
+        
     def add_symbol(self, grid, line, column, symbol):
         """
         It takes a grid, a line, a column and a symbol as arguments and returns the grid with the symbol
