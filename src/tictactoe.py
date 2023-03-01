@@ -6,8 +6,18 @@ import numpy as np
 
 
 class tictactoe:
-    def __init__(self):
-        pass
+
+    grid = None
+
+    def __init__(self, nb_lines, nb_columns):
+        """
+        The constructor of the class tictactoe
+
+        :param nb_lines: number of lines in the grid
+        :param nb_columns: number of columns in the grid
+        """
+        self.grid = self.create_grid(nb_lines, nb_columns)
+
 
     def create_grid(self, nb_lines, nb_columns):
         """
@@ -113,19 +123,12 @@ class tictactoe:
         else:
             return 1
 
-    def draw_symbol(self, grid, line, column, symbol):
-        """
-        It takes a grid, a line, a column and a symbol as parameters and returns the grid with the
-        symbol in the line and column
-
-        :param grid: the grid of the game
-        :param line: the line where the symbol will be drawn
-        :param column: the column where the symbol will be drawn
-        :param symbol: 1 or 2
-        :return: The grid with the symbol in the position specified by the player.
-        """
+    """ def draw_symbol(self, grid, line, column, symbol):
+    
         if symbol == 1:
             grid[line][column] = "X"
         elif symbol == 2:
             grid[line][column] = "O"
-        return grid
+        return grid """
+    
+    #draw on the image
