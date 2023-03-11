@@ -88,7 +88,7 @@ def locate_grid(canny, img):
             cv2.line(grid, pt1, pt2, (255, 255, 255), 2, cv2.LINE_AA)
 
         for pt in intersections:
-            cv2.circle(img, (pt[0], pt[1]), 5, (255, 0, 0), 10)
+            cv2.circle(img, (pt[0], pt[1]), 10, (255, 255, 255), 10)
         grid = cv2.dilate(grid, None)
 
         intersections.sort(key=lambda x: x[1])
@@ -313,7 +313,7 @@ def rotate(grid, corners, img=None):
         img = cv2.warpAffine(src=img, M=rotate_matrix, dsize=(w, h))
 
     for corner in coord_t:
-        cv2.circle(grid, corner, 10, (0, 255, 0), 10)
+        cv2.circle(grid, corner, 10, (0, 255, 255), 10)
 
     return grid, coord_t, img
 
