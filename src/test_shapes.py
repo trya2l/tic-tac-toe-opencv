@@ -4,65 +4,28 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 # reading image
-img = cv2.imread("img/ima.png")
+tic = cv2.imread("img/ima.png")
 
-# converting image into grayscale image
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+gray = cv2.cvtColor(tic, cv2.COLOR_BGR2GRAY)
 
-# setting threshold of gray image
-_, threshold = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+img = cv2.medianBlur(gray, 5)
 
-# using a findContours() function
-contours, _ = cv2.findContours(
-	threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+cimg = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
-i = 0
+circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT,
+                           1,120, param1=100, param2=30, minRadius=0, maxRadius=0)
 
-# list for storing names of shapes
-for contour in contours:
+circles = np.uint16(np.around(circles))
 
-	# here we are ignoring first counter because
-	# findcontour function detects whole image as shape
-	if i == 0:
-		i = 1
-		continue
+for circle in circles[0, :]:
 
-	# cv2.approxPloyDP() function to approximate the shape
-	approx = cv2.approxPolyDP(
-		contour, 0.01 * cv2.arcLength(contour, True), True)
-	
-	# using drawContours() function
-	cv2.drawContours(img, [contour], 0, (0, 255, 255), 5)
+    # circle
+    cv2.circle(tic, (circle[0], circle[1]), circle[2], (0, 255, 0), 2)
 
-	# finding center point of shape
-	M = cv2.moments(contour)
-	if M['m00'] != 0.0:
-		x = int(M['m10']/M['m00'])
-		y = int(M['m01']/M['m00'])
+    # center
+    cv2.circle(tic, (circle[0], circle[1]), 2, (0, 255, 0), 3)
 
-	# putting shape name at center of each shape
-	if len(approx) == 3:
-		cv2.putText(img, 'T', (x, y),
-					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
 
-	elif len(approx) == 4:
-		cv2.putText(img, 'Q', (x, y),
-					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
-
-	elif len(approx) == 5:
-		cv2.putText(img, 'P', (x, y),
-					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
-
-	elif len(approx) == 6:
-		cv2.putText(img, 'H', (x, y),
-					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
-
-	else:
-		cv2.putText(img, 'C', (x, y),
-					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
-
-# displaying the image after drawing contours
-cv2.imshow('shapes', img)
-
-cv2.waitKey(0)
+cv2.imshow("cicrles", tic)
+cv2.waitKey()
 cv2.destroyAllWindows()
