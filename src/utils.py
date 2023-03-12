@@ -352,3 +352,5 @@ def zoning(corners, img):
     show(zone8)
     plt.subplot(3, 3, 9)
     show(zone9)
+
+    return zone7
