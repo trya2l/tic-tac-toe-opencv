@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import os
 
 
 def read_and_resize(px_y, imgfile):
@@ -318,7 +319,7 @@ def rotate(grid, corners, img=None):
     return grid, coord_t, img
 
 
-def zoning(corners, img):
+def zoning(corners, img, print=False):
 
     corners = sort_corners(img, corners)
 
@@ -333,24 +334,32 @@ def zoning(corners, img):
     zone8 = img[corners[2][1]:, corners[2][0]:corners[3][0]]
     zone9 = img[corners[2][1]:, corners[3][0]:]
 
-    plt.figure()
-    plt.subplot(3, 3, 1)
-    show(zone1)
-    plt.subplot(3, 3, 2)
-    show(zone2)
-    plt.subplot(3, 3, 3)
-    show(zone3)
-    plt.subplot(3, 3, 4)
-    show(zone4)
-    plt.subplot(3, 3, 5)
-    show(zone5)
-    plt.subplot(3, 3, 6)
-    show(zone6)
-    plt.subplot(3, 3, 7)
-    show(zone7)
-    plt.subplot(3, 3, 8)
-    show(zone8)
-    plt.subplot(3, 3, 9)
-    show(zone9)
+    zones = [zone1, zone2, zone3, zone4, zone5, zone6, zone7, zone8, zone9]
 
-    return zone7
+    if print:
+        i = 1
+        plt.figure()
+        for zone in zones:
+            plt.subplot(3, 3, i)
+            show(zone)
+            i += 1
+
+    return zones
+
+
+def export(img, prefix):
+
+    i = 1
+    os.makedirs("generated/" + prefix, exist_ok=True)
+    plt.figure()
+    for im in img:
+        im = bgr_gray(im)
+        kernel = 7
+        element = cv2.getStructuringElement(
+            cv2.MORPH_RECT, (2*kernel + 1, 2*kernel + 1), (kernel, kernel))
+
+        im = cv2.erode(im, element)
+        cv2.imwrite(os.path.join("generated/" + prefix, prefix + "_" + str(i) + ".png"), im)
+        plt.subplot(3, 3, i)
+        show(im)
+        i += 1
