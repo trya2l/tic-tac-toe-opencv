@@ -350,7 +350,7 @@ def zoning(corners, img, print=False):
 def export(img, prefix):
 
     i = 1
-    os.makedirs("generated/" + prefix, exist_ok=True)
+    os.makedirs("img/generated/" + prefix, exist_ok=True)
     plt.figure()
     for im in img:
         im = bgr_gray(im)
@@ -359,7 +359,7 @@ def export(img, prefix):
             cv2.MORPH_RECT, (2*kernel + 1, 2*kernel + 1), (kernel, kernel))
 
         im = cv2.erode(im, element)
-        cv2.imwrite(os.path.join("generated/" + prefix, prefix + "_" + str(i) + ".png"), im)
+        cv2.imwrite(os.path.join("img/generated/" + prefix, prefix + "_" + str(i) + ".png"), im)
         plt.subplot(3, 3, i)
         show(im)
         i += 1
