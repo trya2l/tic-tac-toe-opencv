@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import cv2
 import random
-import functions as f
+import old_files.functions as f
 import tictactoe as ttt
 
 # Taille des images
