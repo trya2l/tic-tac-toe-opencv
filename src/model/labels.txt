@@ -1,0 +1,3 @@
+0 ROND
+1 CROIX
+2 VIDE
