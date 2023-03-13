@@ -7,7 +7,6 @@ import sys
 import importlib
 importlib.reload(u)
 
-
 def main(argv):
     default_image = "img/image.png"
     filepath = argv[0] if len(argv) > 0 else default_image
