@@ -4,6 +4,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import os
+import symbol_detection as sd
 
 
 def read_and_resize(px_y, imgfile):
@@ -349,6 +350,7 @@ def zoning(corners, img, print=False):
 
 def export(img, prefix):
 
+    paths = []
     i = 1
     os.makedirs("img/generated/" + prefix, exist_ok=True)
     plt.figure()
@@ -359,7 +361,21 @@ def export(img, prefix):
             cv2.MORPH_RECT, (2*kernel + 1, 2*kernel + 1), (kernel, kernel))
 
         im = cv2.erode(im, element)
-        cv2.imwrite(os.path.join("img/generated/" + prefix, prefix + "_" + str(i) + ".png"), im)
+        filepath = "img/generated/" + prefix + \
+            "/" + prefix + "_" + str(i) + ".png"
+        paths.append(filepath)
+        cv2.imwrite(filepath, im)
         plt.subplot(3, 3, i)
         show(im)
         i += 1
+
+    return paths
+
+
+def symbols(paths):
+    results = []
+    for i, path in enumerate(paths):
+        symbol = sd.predict(path)
+        result = "CASE " + str(i) + ": " + symbol
+        results.append(result)
+    return results
