@@ -7,7 +7,7 @@ def main(argv):
     default_file = 'smarties.png'
     filename = argv[0] if len(argv) > 0 else default_file
     # Loads an image
-    src = cv.imread('/home/allan/Documents/3IL/IMAGES/tic-tac-toe-opencv/src/img/zones/z.png', cv.IMREAD_COLOR)
+    src = cv.imread('/home/allan/Documents/3IL/IMAGES/tic-tac-toe-opencv/src/img/generated/imd/imd_2.png', cv.IMREAD_COLOR)
     # Check if image is loaded fine
     if src is None:
         print ('Error opening image!')
@@ -28,14 +28,8 @@ def main(argv):
     
     gray = cv.medianBlur(gray, 5)
 
-    cv.imshow("detected circles", gray)
-    cv.waitKey(0)
-
     canny = gray
     canny = cv.Canny(gray, 10, 200)
-
-    cv.imshow("detected circles", canny)
-    cv.waitKey(0)
     
     rows = gray.shape[0]
     circles = cv.HoughCircles(canny, cv.HOUGH_GRADIENT, 1, rows,
@@ -49,14 +43,15 @@ def main(argv):
         for ind,i in enumerate(circles[0, :]):
             center = (i[0], i[1])
             # circle center
-            cv.circle(canny, center, 1, (0, 100, 100), 3)
+            cv.circle(src, center, 1, (0, 100, 100), 3)
             # circle outline
             radius = i[2]
-            cv.circle(canny, center, radius, (255, 0, 255), 3)
+            cv.circle(src, center, radius, (255, 0, 255), 3)
     
     
-    cv.imshow("detected circles", canny)
+    cv.imshow("detected circles", src)
     cv.waitKey(0)
+    cv.destroyAllWindows()
     
     return 0
 if __name__ == "__main__":
