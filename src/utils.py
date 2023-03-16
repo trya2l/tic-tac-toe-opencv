@@ -21,29 +21,6 @@ def bgr_gray(img):
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 
-def linesP(canny, img):
-
-    img = cv2.cvtColor(canny, cv2.COLOR_GRAY2BGR)
-    y_size = canny.shape[1]
-    x_size = canny.shape[0]
-    canny[:y_size // 6, :] = 0
-    canny[:, :x_size // 6] = 0
-    canny[5*y_size // 6:, :] = 0
-    canny[:, 5*x_size // 6:] = 0
-
-    lines = cv2.HoughLinesP(canny, 1, np.pi/180, 60, None, 100, 20)
-
-    if lines is not None:
-        lines = np.squeeze(lines)
-        for i in range(0, len(lines)):
-            x1, y1, x2, y2 = lines[i]
-            cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 3, cv2.LINE_AA)
-            cv2.circle(img, (x1, y1), 2, (255, 0, 255), 3)
-            cv2.circle(img, (x2, y2), 2, (255, 0, 255), 3)
-
-    return img
-
-
 def locate_grid(canny, img):
 
     grid = img
