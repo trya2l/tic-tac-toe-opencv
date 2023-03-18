@@ -9,11 +9,12 @@ import tictactoe as ttt
 import utils as u
 import importlib
 import math
+import time
+
 importlib.reload(u)
 
 # Taille des images
 # IMG_SIZE = 829
-
 
 # Charger une image
 
@@ -119,9 +120,19 @@ def detect_form(img, filename):
         symbole = r.split(":")[1].strip()
         symboles.append(symbole)
 
-    print(symboles)
-
+    clear()
     return symboles
+
+
+def clear():
+
+    # for windows
+    if os.name == 'nt':
+        _ = os.system('cls')
+
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = os.system('clear')
 
 
 def value_to_grid(value):
@@ -145,47 +156,64 @@ def value_to_grid(value):
 
 def startGame(img, filename):
     resultat = detect_form(load_image(img), filename)
-    print(resultat)
-    print(value_to_grid(len(resultat)))
 
     grid = ttt.tictactoe(int(value_to_grid(len(resultat))),
                          int(value_to_grid(len(resultat))))
-    # affiche la grille
-    grid.show_grid()
     # remplir la grille avec les symboles détectés
     for i in range(3):
         for j in range(3):
-            # resultat[1] = 1,1
-            # resultat[2] = 1,2
             if resultat[i*3+j] == "CROIX":
                 grid.add_symbol(i, j, "1")
             elif resultat[i*3+j] == "ROND":
                 grid.add_symbol(i, j, "2")
 
-    grid.show_grid()
     symbol = grid.computer_symbol()
     while grid.is_end() == False:
+        grid.show_grid()
+        print(" ")
         print("Tour :", grid.turn)
-        print("Play : ", grid.who_play())
+        print("Symbole de l'ordinateur est : " +
+              ("X" if symbol == "1" else "O"))
         if grid.who_play() == 1:
             print("C'est au tour du joueur 1.")
-            line_p = int(input("Ligne : "))
-            column_p = int(input("Colonne : "))
-            # check if input are between 0 and 2
-            while line_p < 0 or line_p > 2 or column_p < 0 or column_p > 2:
-                print("Erreur de saisie.")
+            print("Saisissez la ligne et la colonne de votre coup.")
+
+            while True:
                 line_p = int(input("Ligne : "))
                 column_p = int(input("Colonne : "))
+                if line_p < 0 or line_p > grid.size - 1 or column_p < 0 or column_p > grid.size - 1:
+                    print("Veuillez saisir une valeur entre 0 et " +
+                          str(grid.size - 1) + ".")
+                else:
+                    if grid.check_case(line_p, column_p):
+                        break
+                    else:
+                        print("Cette case est déjà prise.")
 
             grid.player_turn(line_p, column_p)
         elif grid.who_play() == 2:
-            print("C'est au tour de l'oordinateur.")
+            print("C'est au tour de l'ordinateur.")
             grid.computer_turn(symbol)
+            time.sleep(2)
 
-        grid.show_grid()
+        clear()
 
+    
     print("Fin de la partie.")
-    print("Le gagnant est : " + grid.who_won())
+    if(grid.winner == 0):
+        print("Match nul.")
+    else:
+        #regarde le sybole de l'ordinateur
+        if symbol == "1":
+            if grid.winner == 1:
+                print("L'ordinateur a gagné.")
+            else:
+                print("Le joueur 1 a gagné.")
+        else:
+            if grid.winner == 1:
+                print("Le joueur 1 a gagné.")
+            else:
+                print("L'ordinateur a gagné.")
     grid.show_grid()
 
 

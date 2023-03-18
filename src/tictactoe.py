@@ -1,10 +1,6 @@
 
 import numpy as np
 
-# It creates a grid, adds symbols to the grid, checks if the grid is full, checks if there is a
-# winner, and checks if the game is over
-
-
 class tictactoe:
 
     def __init__(self, nb_lines, nb_columns):
@@ -20,15 +16,28 @@ class tictactoe:
         self.winner = None
         self.game_over = False
         self.turn = 0
+        self.size = nb_lines
+
+    def __str__(self):
+        # retourne les informations de la partie
+        return "Nombre de lignes : " + str(self.nb_lines) + " Nombre de colonnes : " + str(self.nb_columns) + " Gagnant : " + str(self.winner) + " Fin de la partie : " + str(self.game_over) + " Tour : " + str(self.turn) 
 
     def show_grid(self):
-        """
-        The function takes a grid as an argument and prints it
+        # Bel affichage de la grille
+        print("    0 1 2")
+        print("   _______")
+        for i in range(self.nb_lines):
+            print(i, end=" | ")
+            for j in range(self.nb_columns):
+                if self.grid[i][j] == 0:
+                    print("-", end=" ")
+                elif self.grid[i][j] == 1:
+                    print("X", end=" ")
+                elif self.grid[i][j] == 2:
+                    print("O", end=" ")
+            print()
 
-        :param grid: a 2D array of integers, where 0 represents an empty space, 1 represents a wall, and
-        2 represents a goal
-        """
-        print(self.grid)
+
 
     def add_symbol(self, line, column, symbol):
         """
@@ -89,17 +98,17 @@ class tictactoe:
         :param grid: a 2D array representing the current state of the game
         :return: The function is_end() returns a boolean value.
         """
-        if self.is_full(self.grid):
-            self.game_over = True
-            self.winner = 0
-            return True
-        elif self.is_winner(self.grid, 1):
+        if self.is_winner(self.grid, 1):
             self.game_over = True
             self.winner = 1
             return True
         elif self.is_winner(self.grid, 2):
             self.game_over = True
             self.winner = 2
+            return True
+        elif self.is_full(self.grid):
+            self.game_over = True
+            self.winner = 0
             return True
         return False
 
@@ -141,12 +150,7 @@ class tictactoe:
 
         :return: The function who_won() returns an integer value.
         """
-        if self.winner == 1:
-            return "Player 1"
-        elif self.winner == 2:
-            return "Player 2"
-        else:
-            return "Nobody"
+        return self.winner
 
     def computer_turn(self, symbol):
         """
