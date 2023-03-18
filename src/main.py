@@ -15,10 +15,10 @@ from colorama import Fore, Style
 importlib.reload(u)
 
 
-def load_image(path):
-    img = cv2.imread(path)
-    # img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
-    return img
+def load_image(imgfile, px_y=800):
+    img = cv2.imread(imgfile)
+    scale = px_y / img.shape[0]
+    return cv2.resize(img, (0, 0), fx=scale, fy=scale)
 
 
 def show_image(img):
@@ -34,11 +34,12 @@ def detect_form(img, filename):
     :param img: the image to be processed
     :return: The result of the function is a list of lists.
     """
-    show_image(img)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    #show_image(img)
+    #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    plt.figure()
-    plt.subplot(2, 2, 1)
+    #plt.figure()
+    #plt.subplot(2, 2, 1)
+
 
     # Érosion
 
@@ -48,27 +49,15 @@ def detect_form(img, filename):
 
     erode = cv2.erode(img, element)
 
-    plt.figure()
-    plt.subplot(2, 2, 1)
-    u.show(erode)
-
     # Median blur
 
     gray = cv2.cvtColor(erode, cv2.COLOR_BGR2GRAY)
 
     median = cv2.medianBlur(gray, 11)
 
-    plt.figure()
-    plt.subplot(2, 2, 1)
-    u.show(median)
-
     # Canny
 
     canny = cv2.Canny(median, 100, 200)
-
-    plt.figure()
-    plt.subplot(2, 2, 1)
-    u.show(canny)
 
     # Dilatation
 
@@ -78,25 +67,13 @@ def detect_form(img, filename):
 
     dilate = cv2.dilate(canny, element)
 
-    plt.figure()
-    plt.subplot(2, 2, 1)
-    u.show(dilate)
-
     # Grid recogniton
 
     lines, corners = u.locate_grid(dilate, gray)
 
-    plt.figure()
-    plt.subplot(2, 2, 1)
-    u.show(lines)
-
     # Grid rotation
 
     rotate, corners_t, img_rotate = u.rotate(lines, corners, img)
-
-    plt.figure()
-    plt.subplot(2, 2, 1)
-    u.show(rotate)
 
     # Zoning
 
