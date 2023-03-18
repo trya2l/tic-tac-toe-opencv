@@ -10,27 +10,20 @@ import utils as u
 import importlib
 import math
 import time
+from colorama import Fore, Style
 
 importlib.reload(u)
 
-# Taille des images
-# IMG_SIZE = 829
-
-# Charger une image
 
 def load_image(path):
     img = cv2.imread(path)
     # img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
     return img
 
-# Afficher une image
-
 
 def show_image(img):
     plt.imshow(img)
     plt.show()
-
-# Filtre de Canny : contours de l'img
 
 
 def detect_form(img, filename):
@@ -130,7 +123,7 @@ def clear():
     if os.name == 'nt':
         _ = os.system('cls')
 
-    # for mac and linux(here, os.name is 'posix')
+    # for mac and linux
     else:
         _ = os.system('clear')
 
@@ -151,7 +144,7 @@ def value_to_grid(value):
                 divisors.append(value // i)
     divisors.sort()
     mid = len(divisors) // 2
-    return divisors[mid]  # , divisors[-mid]
+    return divisors[mid]
 
 
 def startGame(img, filename):
@@ -159,7 +152,6 @@ def startGame(img, filename):
 
     grid = ttt.tictactoe(int(value_to_grid(len(resultat))),
                          int(value_to_grid(len(resultat))))
-    # remplir la grille avec les symboles détectés
     for i in range(3):
         for j in range(3):
             if resultat[i*3+j] == "CROIX":
@@ -173,7 +165,14 @@ def startGame(img, filename):
         print(" ")
         print("Tour :", grid.turn)
         print("Symbole de l'ordinateur est : " +
-              ("X" if symbol == "1" else "O"))
+              (Fore.RED + "X" + Style.RESET_ALL if symbol == "1" else Fore.BLUE + "O" + Style.RESET_ALL))
+        
+        if symbol == "1":
+            print("Symbole du joueur est : " + Fore.BLUE + "O" + Style.RESET_ALL)
+        else:
+            print("Symbole du joueur est : " + Fore.RED + "X" + Style.RESET_ALL)
+
+        print(" ")
         if grid.who_play() == 1:
             print("C'est au tour du joueur 1.")
             print("Saisissez la ligne et la colonne de votre coup.")
@@ -198,12 +197,11 @@ def startGame(img, filename):
 
         clear()
 
-    
-    print("Fin de la partie.")
-    if(grid.winner == 0):
+    print(Fore.GREEN + "Fin de la partie." + Style.RESET_ALL)
+    if (grid.winner == 0):
         print("Match nul.")
     else:
-        #regarde le sybole de l'ordinateur
+
         if symbol == "1":
             if grid.winner == 1:
                 print("L'ordinateur a gagné.")
@@ -218,18 +216,15 @@ def startGame(img, filename):
 
 
 def main():
-    # chemin du dossier contenant les images
+
     path = "img/"
 
-    # liste des fichiers dans le dossier
     files = os.listdir(path)
 
-    # affichage du menu
     print("Sélectionnez une image :")
     for i, file in enumerate(files):
         print(f"{i+1}. {file}")
 
-    # demande de saisie de l'utilisateur
     while True:
         try:
             choix = int(input("Votre choix : "))
