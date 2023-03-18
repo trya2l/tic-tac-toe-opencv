@@ -8,12 +8,14 @@ import symbol_detection as sd
 
 
 def read_and_resize(px_y, imgfile):
+    """Read image and resize it according to height (px_y) passed as parameter."""
     img = cv2.imread(imgfile)
     scale = px_y / img.shape[0]
     return cv2.resize(img, (0, 0), fx=scale, fy=scale)
 
 
 def show(img):
+    """Small shortcut to plot openCV image"""
     plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
 
@@ -22,10 +24,18 @@ def bgr_gray(img):
 
 
 def locate_grid(canny, img):
+    """
+    This function uses the Hough lines transform to detect the lines present
+    in the image.
+    In the end it returns an image with the four grid lines and an array
+    containing the coordinates of the four intersections.
+    """
 
     grid = img
     grid[:, :] = 0
     img = cv2.cvtColor(canny, cv2.COLOR_GRAY2BGR)
+
+    # Pretreatment of the image to facilitate the Hough lines detections
 
     y_size = canny.shape[1]
     x_size = canny.shape[0]
@@ -35,6 +45,8 @@ def locate_grid(canny, img):
     canny[:, 5*x_size // 6:] = 0
 
     lines = cv2.HoughLines(canny, 1, np.pi/180, 90)
+
+    # Selection of the four good candidates
 
     if lines is not None:
         lines = np.squeeze(lines)
@@ -51,10 +63,15 @@ def locate_grid(canny, img):
 
         grid_lines = grid_lines[:4]
 
-        # https://stackoverflow.com/questions/46565975/find-intersection-point-of-two-lines-drawn-using-houghlines-opencv
+        # Segmentation of the parallels lines
+
         lines, lines_0, lines_1 = segment_by_angle_kmeans(grid_lines)
 
+        # Recovery of the intersections
+
         intersections = list(segmented_intersections(lines))
+
+        # Drawing of the lines and intersections on the original image
 
         for line in lines_0:
             pt1, pt2 = construct_line(line)
@@ -76,6 +93,7 @@ def locate_grid(canny, img):
 
 
 def construct_line(line):
+    """Wrapper function to construct a line based on rho, theta parameters"""
     rho = line[0]
     theta = line[1]
     a = math.cos(theta)
@@ -132,17 +150,17 @@ def segment_by_angle_kmeans(lines, k=2, **kwargs):
     flags = kwargs.get('flags', cv2.KMEANS_RANDOM_CENTERS)
     attempts = kwargs.get('attempts', 10)
 
-    # returns angles in [0, pi] in radians
+    # Returns angles in [0, pi] in radians
     angles = np.array([line[1] for line in lines])
-    # multiply the angles by two and find coordinates of that angle
+    # Multiply the angles by two and find coordinates of that angle
     pts = np.array([[np.cos(2*angle), np.sin(2*angle)]
                     for angle in angles], dtype=np.float32)
 
-    # run kmeans on the coords
+    # Run kmeans on the coordinates
     labels, _ = cv2.kmeans(pts, k, None, criteria, attempts, flags)[1:]
-    labels = labels.reshape(-1)  # transpose to row vec
+    labels = labels.reshape(-1)  # transpose to row vector
 
-    # segment lines based on their kmeans label
+    # Segment lines based on their kmeans label
     segmented = defaultdict(list)
     for i, line in enumerate(lines):
         segmented[labels[i]].append(line)
@@ -153,83 +171,20 @@ def segment_by_angle_kmeans(lines, k=2, **kwargs):
     lines1 = np.squeeze(lines1)
     return segmented, lines0, lines1
 
-
-def lines(canny, img):
-
-    grid = img
-    grid[:, :] = 0
-    img = cv2.cvtColor(canny, cv2.COLOR_GRAY2BGR)
-
-    y_size = canny.shape[1]
-    x_size = canny.shape[0]
-    canny[:y_size // 6, :] = 0
-    canny[:, :x_size // 6] = 0
-    canny[5*y_size // 6:, :] = 0
-    canny[:, 5*x_size // 6:] = 0
-
-    lines = cv2.HoughLines(canny, 1, np.pi/180, 90)
-
-    if lines is not None:
-        lines = np.squeeze(lines)
-        grid_lines = [lines[0]]
-        for i in range(0, len(lines)):
-            is_grid_line = True
-            for j in range(0, len(grid_lines)):
-                d_rho = abs(lines[i][0] - grid_lines[j][0])
-                d_theta = abs(lines[i][1] - grid_lines[j][1])
-                if d_rho >= 0 and d_rho < 100 and d_theta < 10*np.pi/180:
-                    is_grid_line = False
-            if (is_grid_line):
-                grid_lines.append(lines[i])
-
-        grid_lines = grid_lines[0:4]
-        for line in grid_lines:
-            rho = line[0]
-            theta = line[1]
-            a = math.cos(theta)
-            b = math.sin(theta)
-            x0 = a * rho
-            y0 = b * rho
-            pt1 = (int(x0 + 1000*(-b)), int(y0 + 1000*(a)))
-            pt2 = (int(x0 - 1000*(-b)), int(y0 - 1000*(a)))
-            cv2.line(img, pt1, pt2, (0, 0, 255), 2, cv2.LINE_AA)
-            cv2.line(grid, pt1, pt2, (255, 255, 255), 2, cv2.LINE_AA)
-        grid = cv2.dilate(grid, None)
-
-    return img, grid
-
-
-def corners(grid):
-
-    corners, grid = sort_corners(grid)
-
-    grid = rotate(grid, corners)
-
-    '''
-    kernel = 5
-    element = cv2.getStructuringElement(
-    cv2.MORPH_RECT, (2*kernel + 1, 2*kernel + 1), (kernel, kernel))
-
-    grid = cv2.dilate(grid, element)
-    '''
-
-    _, _ = sort_corners(grid)
-
-    grid = cv2.cvtColor(grid, cv2.COLOR_GRAY2BGR)
-
-    for i in range(0, len(corners)):
-        cv2.circle(grid, (corners[i][0], corners[i][1]), 10, (0, 255, 0), 10)
-
-    return corners, grid
-
-
 def sort_corners(grid, intersections):
+    """
+    This function sort the grid intersections according to reading sense.
+    i.e left to right , top to bottom.
+    """
 
     indices = [None, None, None, None]
     selected = [False, False, False, False]
 
+    # Selection of the closest point for each corner of the image  
+
     for corner in range(4):
         sort_corners = [None, None, None, None]
+
         for i in range(len(intersections)):
             tl = math.sqrt(
                 pow(intersections[i][0], 2) + pow(intersections[i][1], 2))
@@ -257,8 +212,13 @@ def sort_corners(grid, intersections):
 
 
 def rotate(grid, corners, img=None):
-    # rotate points
-    # https://stackoverflow.com/questions/7953316/rotate-a-point-around-a-point-with-opencv
+    """
+    Rotation of the image and the four grid inteersection points
+    according to the angle between the two bottom corners. 
+    """
+
+    # Calculation of the angle of rotation
+
     co = abs(corners[2][0] - corners[3][0])
     hyp = math.sqrt(pow(corners[2][0] - corners[3][0], 2) +
                     pow(corners[2][1] - corners[3][1], 2))
@@ -266,12 +226,11 @@ def rotate(grid, corners, img=None):
 
     h, w = grid.shape[:2]
 
-    rotated_corners = [corners[:][0] *
-                       math.cos(angle) + corners[:][1]*math.sin(angle)]
-
     center = (w/2, h/2)
 
     coord_t = []
+
+    # Calculation of the new corners position
 
     for corner in corners:
         coord = (corner[0] - center[0], corner[1] - center[1])
@@ -283,8 +242,8 @@ def rotate(grid, corners, img=None):
 
     rotate_matrix = cv2.getRotationMatrix2D(
         center=center, angle=math.degrees(angle), scale=1)
-
-    # cv2.circle(grid, (int(corners[0][0]), int(corners[0][1])), 10, (255, 255, 0), 10)
+    
+    # Grid and image rotation
 
     grid = cv2.warpAffine(src=grid, M=rotate_matrix, dsize=(w, h))
 
@@ -298,6 +257,9 @@ def rotate(grid, corners, img=None):
 
 
 def zoning(corners, img, print=False):
+    """
+    Segmentation of the nine boxes of the image.
+    """
 
     corners = sort_corners(img, corners)
 
@@ -326,6 +288,9 @@ def zoning(corners, img, print=False):
 
 
 def export(img, prefix):
+    """
+    Generation of the images of the nine boxes in the image.
+    """
 
     paths = []
     i = 1
@@ -350,9 +315,11 @@ def export(img, prefix):
 
 
 def symbols(paths):
+    """
+    Prediction of the symbol in each box.
+    """
     results = []
     for i, path in enumerate(paths):
         symbol = sd.predict(path)
-        result = "CASE " + str(i) + ": " + symbol
-        results.append(result)
+        results.append(symbol)
     return results
