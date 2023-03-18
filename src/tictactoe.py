@@ -2,28 +2,26 @@
 import numpy as np
 from colorama import Fore, Style
 
+
 class tictactoe:
 
-    def __init__(self, nb_lines, nb_columns):
+    def __init__(self, size):
 
-        self.nb_lines = nb_lines
-        self.nb_columns = nb_columns
-        self.grid = np.zeros((nb_lines, nb_columns))
+        self.size = size
+        self.grid = np.zeros((size, size))
         self.winner = None
-        self.game_over = False
         self.turn = 0
-        self.size = nb_lines
 
     def __str__(self):
-        return "Nombre de lignes : " + str(self.nb_lines) + " Nombre de colonnes : " + str(self.nb_columns) + " Gagnant : " + str(self.winner) + " Fin de la partie : " + str(self.game_over) + " Tour : " + str(self.turn)
+        return str(self.grid)
 
     def show_grid(self):
-        
+
         print("    0 1 2")
         print("   _______")
-        for i in range(self.nb_lines):
+        for i in range(self.size):
             print(i, end=" | ")
-            for j in range(self.nb_columns):
+            for j in range(self.size):
                 if self.grid[i][j] == 0:
                     print("-", end=" ")
                 elif self.grid[i][j] == 1:
@@ -43,12 +41,11 @@ class tictactoe:
         :return: The function is_full() is returning a boolean value.
         """
         return np.all(self.grid != 0)
-    
 
     def is_winner(self, symbol):
         """
         If any of the rows, columns, or diagonals are all the same symbol, then that symbol is the winner
-        
+
         :param symbol: The symbol to check for a win
         :return: The function is_winner() returns True if the symbol is a winner, and False otherwise.
         """
@@ -69,15 +66,14 @@ class tictactoe:
 
     def is_end(self):
         if self.is_winner(1):
-            self.game_over = True
+
             self.winner = 1
             return True
         elif self.is_winner(2):
-            self.game_over = True
+
             self.winner = 2
             return True
         elif self.is_full():
-            self.game_over = True
             self.winner = 0
             return True
         return False
@@ -110,14 +106,14 @@ class tictactoe:
         """
         The computer chooses a random line and column, and if the cell is empty, it places its symbol
         there
-        
+
         :param symbol: 1 or 2
         :return: The grid
         """
-        line = np.random.randint(0, self.nb_lines)
+        line = np.random.randint(0, self.size)
         column = np.random.randint(0, self.nb_columns)
         while self.grid[line][column] != 0:
-            line = np.random.randint(0, self.nb_lines)
+            line = np.random.randint(0, self.size)
             column = np.random.randint(0, self.nb_columns)
         self.grid[line][column] = symbol
         self.turn += 1

@@ -34,12 +34,11 @@ def detect_form(img, filename):
     :param img: the image to be processed
     :return: The result of the function is a list of lists.
     """
-    #show_image(img)
-    #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    # show_image(img)
+    # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    #plt.figure()
-    #plt.subplot(2, 2, 1)
-
+    # plt.figure()
+    # plt.subplot(2, 2, 1)
 
     # Érosion
 
@@ -127,8 +126,7 @@ def value_to_grid(value):
 def startGame(img, filename):
     resultat = detect_form(load_image(img), filename)
 
-    grid = ttt.tictactoe(int(value_to_grid(len(resultat))),
-                         int(value_to_grid(len(resultat))))
+    grid = ttt.tictactoe(int(value_to_grid(len(resultat))))
     for i in range(3):
         for j in range(3):
             if resultat[i*3+j] == "CROIX":
@@ -143,11 +141,13 @@ def startGame(img, filename):
         print("Tour :", grid.turn)
         print("Symbole de l'ordinateur est : " +
               (Fore.RED + "X" + Style.RESET_ALL if symbol == "1" else Fore.BLUE + "O" + Style.RESET_ALL))
-        
+
         if symbol == "1":
-            print("Symbole du joueur est : " + Fore.BLUE + "O" + Style.RESET_ALL)
+            print("Symbole du joueur est : " +
+                  Fore.BLUE + "O" + Style.RESET_ALL)
         else:
-            print("Symbole du joueur est : " + Fore.RED + "X" + Style.RESET_ALL)
+            print("Symbole du joueur est : " +
+                  Fore.RED + "X" + Style.RESET_ALL)
 
         print(" ")
         if grid.who_play() == 1:
