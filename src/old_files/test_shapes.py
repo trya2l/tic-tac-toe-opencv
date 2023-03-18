@@ -1,31 +1,69 @@
-
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
 # reading image
-tic = cv2.imread("img/ima.png")
+img = cv2.imread('../img/generated/ima/ima_1.png')
 
-gray = cv2.cvtColor(tic, cv2.COLOR_BGR2GRAY)
+# converting image into grayscale image
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-img = cv2.medianBlur(gray, 5)
+# setting threshold of gray image
+_, threshold = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
 
-cimg = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+# using a findContours() function
+contours, _ = cv2.findContours(
+	threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT,
-                           1,120, param1=100, param2=30, minRadius=0, maxRadius=0)
+i = 0
 
-circles = np.uint16(np.around(circles))
+threshold = cv2.cvtColor(threshold,cv2.COLOR_GRAY2BGR)
 
-for circle in circles[0, :]:
+# list for storing names of shapes
+for contour in contours:
 
-    # circle
-    cv2.circle(tic, (circle[0], circle[1]), circle[2], (0, 255, 0), 2)
+	# here we are ignoring first counter because
+	# findcontour function detects whole image as shape
+	if i == 0:
+		i = 1
+		continue
 
-    # center
-    cv2.circle(tic, (circle[0], circle[1]), 2, (0, 255, 0), 3)
+	# cv2.approxPloyDP() function to approximate the shape
+	approx = cv2.approxPolyDP(
+		contour, 0.01 * cv2.arcLength(contour, True), True)
+	
+	# using drawContours() function
+	cv2.drawContours(threshold, [contour], 0, (0, 0, 255), 5)
 
+	# finding center point of shape
+	M = cv2.moments(contour)
+	if M['m00'] != 0.0:
+		x = int(M['m10']/M['m00'])
+		y = int(M['m01']/M['m00'])
 
-cv2.imshow("cicrles", tic)
-cv2.waitKey()
+	# putting shape name at center of each shape
+	if len(approx) == 3:
+		cv2.putText(threshold, 'T', (x, y),
+					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+
+	elif len(approx) == 4:
+		cv2.putText(threshold, 'Q', (x, y),
+					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+
+	elif len(approx) == 5:
+		cv2.putText(threshold, 'P', (x, y),
+					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+
+	elif len(approx) == 6:
+		cv2.putText(threshold, 'H', (x, y),
+					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+
+	else:
+		cv2.putText(threshold, 'c', (x, y),
+					cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+
+# displaying the image after drawing contours
+cv2.imshow('shapes', threshold)
+
+cv2.waitKey(0)
 cv2.destroyAllWindows()
