@@ -79,7 +79,10 @@ def main(argv):
 
     zones = u.zoning(corners_t, img_rotate)
 
-    u.export(zones, filename)
+    path = u.export(zones, filename)
+
+    resultat = u.symbols(path)
+    print(resultat)
 
     return 0
 

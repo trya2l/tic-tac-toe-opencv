@@ -6,16 +6,20 @@ import cv2
 import random
 import old_files.functions as f
 import tictactoe as ttt
+import utils as u
+import importlib
+import math
+importlib.reload(u)
 
 # Taille des images
-#IMG_SIZE = 829
+# IMG_SIZE = 829
 
 
 # Charger une image
 
 def load_image(path):
     img = cv2.imread(path)
-    #img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
+    # img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
     return img
 
 # Afficher une image
@@ -28,102 +32,166 @@ def show_image(img):
 # Filtre de Canny : contours de l'img
 
 
-def canny(img):
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    edges = cv2.Canny(gray, 50, 150, apertureSize=3)
-    return edges
+def detect_form(img, filename):
+    """
+    It takes an image, applies some filters, detects the grid, rotates the image, zones it and returns
+    the symbols
 
-# Transformee de Hough
+    :param img: the image to be processed
+    :return: The result of the function is a list of lists.
+    """
+    show_image(img)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    plt.figure()
+    plt.subplot(2, 2, 1)
+
+    # Érosion
+
+    kernel = 3
+    element = cv2.getStructuringElement(
+        cv2.MORPH_RECT, (2*kernel + 1, 2*kernel + 1), (kernel, kernel))
+
+    erode = cv2.erode(img, element)
+
+    plt.figure()
+    plt.subplot(2, 2, 1)
+    u.show(erode)
+
+    # Median blur
+
+    gray = cv2.cvtColor(erode, cv2.COLOR_BGR2GRAY)
+
+    median = cv2.medianBlur(gray, 11)
+
+    plt.figure()
+    plt.subplot(2, 2, 1)
+    u.show(median)
+
+    # Canny
+
+    canny = cv2.Canny(median, 100, 200)
+
+    plt.figure()
+    plt.subplot(2, 2, 1)
+    u.show(canny)
+
+    # Dilatation
+
+    kernel = 0
+    element = cv2.getStructuringElement(
+        cv2.MORPH_RECT, (2*kernel + 1, 2*kernel + 1), (kernel, kernel))
+
+    dilate = cv2.dilate(canny, element)
+
+    plt.figure()
+    plt.subplot(2, 2, 1)
+    u.show(dilate)
+
+    # Grid recogniton
+
+    lines, corners = u.locate_grid(dilate, gray)
+
+    plt.figure()
+    plt.subplot(2, 2, 1)
+    u.show(lines)
+
+    # Grid rotation
+
+    rotate, corners_t, img_rotate = u.rotate(lines, corners, img)
+
+    plt.figure()
+    plt.subplot(2, 2, 1)
+    u.show(rotate)
+
+    # Zoning
+
+    zones = u.zoning(corners_t, img_rotate)
+
+    path = u.export(zones, filename)
+
+    resultat = u.symbols(path)
+    resultat = [s.strip() for s in resultat]
+    resultat = [s.replace(" ", "") for s in resultat]
+    symboles = []
+
+    for r in resultat:
+        symbole = r.split(":")[1].strip()
+        symboles.append(symbole)
+
+    print(symboles)
+
+    return symboles
 
 
-def hough_transform(img, edges):
-    lignes_detected = []
-    lignes = cv2.HoughLines(edges, 1, np.pi/180,
-                            int(np.trunc(img.shape[0]/3.5)))    # diminuer le dénominateur diminue le seuil
+def value_to_grid(value):
+    """
+    It finds the two numbers that are closest to the square root of the input value, and returns them in
+    ascending order
 
-    if lignes is None:
-        print("No lines detected in the image")
-        return
-
-    for line in lignes:
-        rho, theta = line[0]
-        a = np.cos(theta)
-        b = np.sin(theta)
-
-        isSimilar = False
-        for r, t in lignes_detected:
-            if abs(r - rho) < 10 and abs(t - theta) < 0.1:
-                isSimilar = True
-                break
-        if not isSimilar:
-            lignes_detected.append((rho, theta))
-
-            x0 = a*rho
-            y0 = b*rho
-            x1 = int(x0 + 1000*(-b))
-            y1 = int(y0 + 1000*(a))
-            x2 = int(x0 - 1000*(-b))
-            y2 = int(y0 - 1000*(a))
-
-            cv2.line(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
-    #print("Number of lines detected: ", len(lignes_detected))
-    cv2.imwrite('houghlines3.jpg', img)
-    cv2.imread('houghlines3.jpg')
-    cv2.imshow('houghlines3.jpg', img)
-    cv2.waitKey(0)
-
-    startGame(img, lignes_detected)
-    return lignes_detected
+    :param value: the number of items to be displayed in the grid
+    :return: the two numbers that are closest to the square root of the input value.
+    """
+    divisors = []
+    for i in range(1, int(math.sqrt(value))+1):
+        if value % i == 0:
+            divisors.append(i)
+            if i != value // i:
+                divisors.append(value // i)
+    divisors.sort()
+    mid = len(divisors) // 2
+    return divisors[mid]  # , divisors[-mid]
 
 
-def startGame(img, lignes_detected):
-    morpion = ttt.tictactoe(lignes_detected/2, lignes_detected/2)
-    morpion.show_grid(morpion.grid)
-    while(morpion.is_end(morpion.grid) == False):
-        morpion.show_grid(morpion.grid)
-        print("C'est au tour du joueur 1")
-        line = int(input("Entrez la ligne : "))
-        column = int(input("Entrez la colonne : "))
-        morpion.grid = morpion.add_symbol(morpion.grid, line, column, 1)
-        morpion.show_grid(morpion.grid)
-        if morpion.is_end(morpion.grid) == True:
-            break
-        print("C'est au tour du joueur 2")
-        line = int(input("Entrez la ligne : "))
-        column = int(input("Entrez la colonne : "))
-        morpion.grid = morpion.add_symbol(morpion.grid, line, column, 2)
-    morpion.show_grid(morpion.grid)
-    print("Fin de la partie")
+def startGame(img, filename):
+    resultat = detect_form(load_image(img), filename)
+    print(resultat)
+    print(value_to_grid(len(resultat)))
 
+    grid = ttt.tictactoe(int(value_to_grid(len(resultat))),
+                         int(value_to_grid(len(resultat))))
+    # affiche la grille
+    grid.show_grid()
+    # remplir la grille avec les symboles détectés
+    for i in range(3):
+        for j in range(3):
+            # resultat[1] = 1,1
+            # resultat[2] = 1,2
+            if resultat[i*3+j] == "CROIX":
+                grid.add_symbol(i, j, "1")
+            elif resultat[i*3+j] == "ROND":
+                grid.add_symbol(i, j, "2")
 
-# Reconnaissance de symboles, soit X soit O dans une case de la grille
+    grid.show_grid()
+    symbol = grid.computer_symbol()
+    while grid.is_end() == False:
+        print("Tour :", grid.turn)
+        print("Play : ", grid.who_play())
+        if grid.who_play() == 1:
+            print("C'est au tour du joueur 1.")
+            line_p = int(input("Ligne : "))
+            column_p = int(input("Colonne : "))
+            # check if input are between 0 and 2
+            while line_p < 0 or line_p > 2 or column_p < 0 or column_p > 2:
+                print("Erreur de saisie.")
+                line_p = int(input("Ligne : "))
+                column_p = int(input("Colonne : "))
 
+            grid.player_turn(line_p, column_p)
+        elif grid.who_play() == 2:
+            print("C'est au tour de l'oordinateur.")
+            grid.computer_turn(symbol)
 
-def recognize_symbol(img):
-    dim = img.size
-    cv2.imshow('base', img)
-    imgBase = img
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img = cv2.medianBlur(img, 5)
+        grid.show_grid()
 
-    cercles = cv2.HoughCircles(
-        img, cv2.HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=int(dim/9-dim/5), maxRadius=int(dim/9+dim/5))
-
-    cercles = np.uint16(np.around(cercles))
-    for i in cercles[0, :]:
-        cv2.circle(imgBase, (i[0], i[1]), i[2],
-                   (0, 255, 0), 2)     # périmètre du cercle
-        # centre du cercle
-        cv2.circle(imgBase, (i[0], i[1]), 2, (0, 0, 255), 3)
-
-    cv2.imshow('cercles detectes', imgBase)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    print("Fin de la partie.")
+    print("Le gagnant est : " + grid.who_won())
+    grid.show_grid()
 
 
 def main():
     # chemin du dossier contenant les images
-    path = 'src/img/'
+    path = "img/"
 
     # liste des fichiers dans le dossier
     files = os.listdir(path)
@@ -148,13 +216,7 @@ def main():
 
     print(f"Vous avez sélectionné l'image : {image_path}")
 
-    image = load_image(image_path)
-
-    edges = canny(image)
-    # show_image(edges)
-    hough_transform(image, edges)
-    #recognize_symbol(image)
-    #print(hough_transform(image, edges))
+    startGame(image_path, files[choix-1])
 
 
 main()

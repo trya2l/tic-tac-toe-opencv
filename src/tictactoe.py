@@ -7,8 +7,6 @@ import numpy as np
 
 class tictactoe:
 
-    grid = None
-
     def __init__(self, nb_lines, nb_columns):
         """
         The constructor of the class tictactoe
@@ -16,20 +14,23 @@ class tictactoe:
         :param nb_lines: number of lines in the grid
         :param nb_columns: number of columns in the grid
         """
-        self.grid = self.create_grid(nb_lines, nb_columns)
+        self.nb_lines = nb_lines
+        self.nb_columns = nb_columns
+        self.grid = np.zeros((nb_lines, nb_columns))
+        self.winner = None
+        self.game_over = False
+        self.turn = 0
 
-
-
-    def show_grid(self, grid):
+    def show_grid(self):
         """
         The function takes a grid as an argument and prints it
 
         :param grid: a 2D array of integers, where 0 represents an empty space, 1 represents a wall, and
         2 represents a goal
         """
-        print(grid)
-        
-    def add_symbol(self, grid, line, column, symbol):
+        print(self.grid)
+
+    def add_symbol(self, line, column, symbol):
         """
         It takes a grid, a line, a column and a symbol as arguments and returns the grid with the symbol
         added at the specified line and column
@@ -40,8 +41,7 @@ class tictactoe:
         :param symbol: the symbol to be added to the grid
         :return: The grid with the symbol added.
         """
-        grid[line][column] = symbol
-        return grid
+        self.grid[line][column] = symbol
 
     def is_full(self, grid):
         """
@@ -82,43 +82,113 @@ class tictactoe:
 
         return False
 
-    def is_end(self, grid):
+    def is_end(self):
         """
         If the grid is full or if there is a winner, then the game is over
 
         :param grid: a 2D array representing the current state of the game
         :return: The function is_end() returns a boolean value.
         """
-        if self.is_full(grid) or self.is_winner(grid, 1) or self.is_winner(grid, 2):
+        if self.is_full(self.grid):
+            self.game_over = True
+            self.winner = 0
+            return True
+        elif self.is_winner(self.grid, 1):
+            self.game_over = True
+            self.winner = 1
+            return True
+        elif self.is_winner(self.grid, 2):
+            self.game_over = True
+            self.winner = 2
             return True
         return False
 
-    def computer_symbol(self, grid):
-        """
-        If there are more 1's than 2's in the grid, return 2, otherwise return 1
 
-        :param grid: the grid of the game
-        :return: the symbol of the computer.
+    def computer_symbol(self):
+        """
+        The computer chooses a symbol
+
+        :return: The function computer_symbol() returns an integer value.
         """
         nb_1 = 0
         nb_2 = 0
-        for line in grid:
+        for line in self.grid:
             for column in line:
                 if column == 1:
                     nb_1 += 1
                 elif column == 2:
                     nb_2 += 1
-        if nb_1 > nb_2:
-            return 2
-        else:
+        if nb_1 < nb_2:
             return 1
+        else:
+            return 2
 
-    """ def draw_symbol(self, grid, line, column, symbol):
-    
-        if symbol == 1:
-            grid[line][column] = "X"
-        elif symbol == 2:
-            grid[line][column] = "O"
-        return grid """
-    
-    #draw on the image
+    # a qui de jouer
+    def who_play(self):
+        """
+        It returns the symbol of the player who is playing
+
+        :return: The function who_play() returns an integer value.
+        """
+        if self.turn % 2 == 0:
+            return 1
+        else:
+            return 2
+
+    def who_won(self):
+        """
+        It returns the symbol of the winner
+
+        :return: The function who_won() returns an integer value.
+        """
+        if self.winner == 1:
+            return "Player 1"
+        elif self.winner == 2:
+            return "Player 2"
+        else:
+            return "Nobody"
+
+    def computer_turn(self, symbol):
+        """
+        The computer plays a turn
+
+        :return: the grid with the computer's symbol added
+        """
+        line = np.random.randint(0, self.nb_lines)
+        column = np.random.randint(0, self.nb_columns)
+        while self.grid[line][column] != 0:
+            line = np.random.randint(0, self.nb_lines)
+            column = np.random.randint(0, self.nb_columns)
+        self.grid[line][column] = symbol
+        self.turn += 1
+        return self.grid
+
+    def check_case(self, line, column):
+        """
+        It checks if the case is empty
+
+        :param line: the line of the case
+        :param column: the column of the case
+        :return: True if the case is empty, and False otherwise
+        """
+        if self.grid[line][column] == 0:
+            return True
+        else:
+            return False
+
+    def player_turn(self, line, column):
+        """
+        The player plays a turn
+
+        :param line: the line of the case
+        :param column: the column of the case
+        :return: the grid with the player's symbol added
+        """
+        symbol = int(self.who_play())
+        if self.check_case(line, column):
+            self.grid[line][column] = symbol
+            self.turn += 1
+        else:
+            print("This case is not empty")
+
+        return self.grid
