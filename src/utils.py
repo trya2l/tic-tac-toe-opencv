@@ -321,5 +321,6 @@ def symbols(paths):
     results = []
     for i, path in enumerate(paths):
         symbol = sd.predict(path)
-        results.append(symbol)
+        result = "CASE " + str(i) + ": " + symbol
+        results.append(result)
     return results
