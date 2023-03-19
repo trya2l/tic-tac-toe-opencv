@@ -1,4 +1,3 @@
-
 import numpy as np
 from colorama import Fore, Style
 
@@ -111,10 +110,10 @@ class tictactoe:
         :return: The grid
         """
         line = np.random.randint(0, self.size)
-        column = np.random.randint(0, self.nb_columns)
+        column = np.random.randint(0, self.size)
         while self.grid[line][column] != 0:
             line = np.random.randint(0, self.size)
-            column = np.random.randint(0, self.nb_columns)
+            column = np.random.randint(0, self.size)
         self.grid[line][column] = symbol
         self.turn += 1
         return self.grid
