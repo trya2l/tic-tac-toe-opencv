@@ -22,7 +22,7 @@ source ./venv/bin/activate
 
 - Sous Windows:
 
-```cmd
+```bash
  ./venv/Scripts/Activate.ps1
 ```
 
@@ -31,3 +31,8 @@ Installation des librairies requises
 ```sh
 pip install -r requirements.txt
 ```
+
+## Documentation
+
+La documentation est disponible dans le dossier [`docs`](docs\rapport.pdf)
+
