@@ -36,3 +36,7 @@ pip install -r requirements.txt
 
 La documentation est disponible dans le dossier [`docs`](docs/rapport.pdf)
 
+
+### Résumé
+
+![affiche](docs/affiche/output/affiche.png)
