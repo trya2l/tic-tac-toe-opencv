@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="500"
+   height="500"
+   viewBox="0 0 132.29166 132.29167"
+   version="1.1"
+   id="svg526"
+   inkscape:version="1.2.2 (1:1.2.2+202212051552+b0a8486541)"
+   sodipodi:docname="deep_learning.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview528"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.0708779"
+     inkscape:cx="395.46992"
+     inkscape:cy="308.62529"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs523">
+    <rect
+       x="242.54172"
+       y="76.988686"
+       width="234.30986"
+       height="83.005371"
+       id="rect1601" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g1541"
+       transform="translate(4.107606,0.03559752)">
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:2.64583;stroke-dasharray:none;stop-color:#000000"
+         id="rect753"
+         width="35.887966"
+         height="35.887966"
+         x="4.9953098"
+         y="6.7427979"
+         rx="3.0401325"
+         ry="3.0401325" />
+      <circle
+         style="fill:none;stroke:#0000ff;stroke-width:2.64583;stroke-dasharray:none;stop-color:#000000"
+         id="path699"
+         cx="22.939293"
+         cy="24.686781"
+         r="12.391079" />
+    </g>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:2.64583;stroke-dasharray:none;stop-color:#000000"
+       id="rect804"
+       width="35.887966"
+       height="35.887966"
+       x="9.1029158"
+       y="89.625305"
+       rx="3.0401325"
+       ry="3.0401325" />
+    <g
+       id="g1545"
+       transform="translate(-34.716817,1.8669497)">
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:2.64583;stroke-dasharray:none;stop-color:#000000"
+         id="rect802"
+         width="35.887966"
+         height="35.887966"
+         x="43.819733"
+         y="46.3349"
+         rx="3.0401325"
+         ry="3.0401325" />
+      <path
+         id="path978"
+         style="fill:none;stroke:#ff0000;stroke-width:2.64583;stroke-dasharray:none;stop-color:#000000"
+         d="m 72.729786,53.31281 -21.93214,21.932145 m 0,-21.932143 21.93214,21.932143" />
+    </g>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-0.19450503,-4.9407003)"
+       id="text1599"
+       style="font-size:80px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-decoration-color:#000000;white-space:pre;shape-inside:url(#rect1601);fill:#000000;stroke:none;stroke-width:10;stroke-dasharray:none;stop-color:#000000;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal"><tspan
+         x="242.54102"
+         y="140.54993"
+         id="tspan1697">ROND</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.1667px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-decoration-color:#000000;fill:#000000;stroke:none;stroke-width:2.64583;stroke-dasharray:none;stop-color:#000000;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal"
+       x="64.48423"
+       y="73.66993"
+       id="text1607"><tspan
+         sodipodi:role="line"
+         id="tspan1605"
+         style="fill:#000000;stroke:none;stroke-width:2.64583;-inkscape-font-specification:'Roboto Bold';font-family:Roboto;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal"
+         x="64.48423"
+         y="73.66993">CROIX</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:21.1667px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-decoration-color:#000000;fill:#000000;stroke:none;stroke-width:2.64583;stroke-dasharray:none;stop-color:#000000;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal"
+       x="65.424744"
+       y="115.09339"
+       id="text1661"><tspan
+         sodipodi:role="line"
+         id="tspan1659"
+         style="fill:#000000;stroke:none;stroke-width:2.64583;-inkscape-font-specification:'Roboto Bold';font-family:Roboto;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal"
+         x="65.424744"
+         y="115.09339">VIDE</tspan></text>
+  </g>
+</svg>

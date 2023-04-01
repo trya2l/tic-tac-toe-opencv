@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="800"
+   height="650"
+   viewBox="0 0 211.66666 171.97917"
+   version="1.1"
+   id="svg1714"
+   inkscape:version="1.2.2 (1:1.2.2+202212051552+b0a8486541)"
+   sodipodi:docname="architecture.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1716"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.75722503"
+     inkscape:cx="487.3056"
+     inkscape:cy="383.63761"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1711">
+    <marker
+       style="overflow:visible"
+       id="Dot"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Dot"
+       markerWidth="5.6666665"
+       markerHeight="5.6666665"
+       viewBox="0 0 5.6666667 5.6666667"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid"
+       markerUnits="userSpaceOnUse">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5,0 C 5,2.76 2.76,5 0,5 -2.76,5 -5,2.76 -5,0 c 0,-2.76 2.3,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="Dot1"
+         sodipodi:nodetypes="sssss" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:7.05556px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-align:justify;text-decoration-color:#000000;white-space:pre;shape-inside:url(#rect1879);display:inline;fill:#000000;stroke-width:2.64583;stop-color:#000000"
+       x="14.334999"
+       y="20.658587"
+       id="text1839"><tspan
+         x="8.7332535"
+         y="12.637037"
+         id="tspan2876">ÉROSION<tspan
+   dx="4.9850559"
+   id="tspan2874" /></tspan><tspan
+         x="8.3242188"
+         y="19.692598"
+         id="tspan2878" /><tspan
+         x="8.3242188"
+         y="26.748158"
+         id="tspan2882">FILTRE MÉDIAN<tspan
+   dx="4.9850578"
+   id="tspan2880" /></tspan><tspan
+         x="8.3242188"
+         y="33.803717"
+         id="tspan2884" /><tspan
+         x="8.3242188"
+         y="40.859278"
+         id="tspan2886">CANNY</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:7.05556px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-decoration-color:#000000;fill:#000000;stroke-width:2.64583;stop-color:#000000"
+       x="14.838531"
+       y="37.634586"
+       id="text1843"><tspan
+         sodipodi:role="line"
+         id="tspan1841"
+         style="font-size:7.05556px;stroke-width:2.64583"
+         x="14.838531"
+         y="37.634586" /></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:7.05556px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-decoration-color:#000000;fill:#000000;stroke-width:2.64583;stop-color:#000000"
+       x="15.47984"
+       y="52.222515"
+       id="text1847"><tspan
+         sodipodi:role="line"
+         id="tspan1845"
+         style="font-size:7.05556px;stroke-width:2.64583"
+         x="15.47984"
+         y="52.222515" /></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:7.05556px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-align:justify;text-decoration-color:#000000;white-space:pre;shape-inside:url(#rect1881);display:inline;fill:#000000;stroke-width:2.64583;stop-color:#000000"
+       x="105.40854"
+       y="27.500027"
+       id="text1851"
+       transform="translate(0,4.4515908)"><tspan
+         x="89.239532"
+         y="40.252272"
+         id="tspan2890"><tspan
+           dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4.7895012 0 0 0 4.7895012"
+           id="tspan2888">RECONNAISSANCE DES LIGNES </tspan></tspan><tspan
+         x="88.402344"
+         y="47.307833"
+         id="tspan2894">DE LA GRILLE (HOUGH LINES)<tspan
+   dx="2.4873581"
+   id="tspan2892" /></tspan><tspan
+         x="88.402344"
+         y="54.363394"
+         id="tspan2896" /><tspan
+         x="88.402344"
+         y="61.418955"
+         id="tspan2900"><tspan
+           dx="0 0 0 0 0 0 0 0 0 0 0 1.1776353 0 0 0 1.1776391 0 0 0 0 1.1776391"
+           id="tspan2898">SÉPARATION DES DEUX GRANDES </tspan></tspan><tspan
+         x="88.402344"
+         y="68.474516"
+         id="tspan2904">LIGNES PARALLÈLES (K-MEANS)<tspan
+   dx="2.4873581"
+   id="tspan2902" /></tspan><tspan
+         x="88.402344"
+         y="75.530073"
+         id="tspan2906" /><tspan
+         x="88.402344"
+         y="82.585631"
+         id="tspan2908">ROTATION DE LA GRILLE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:7.05556px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-decoration-color:#000000;fill:#000000;stroke-width:2.64583;stop-color:#000000"
+       x="107.07082"
+       y="63.11013"
+       id="text1855"><tspan
+         sodipodi:role="line"
+         style="font-size:7.05556px;stroke-width:2.64583"
+         x="107.07082"
+         y="63.11013"
+         id="tspan1997" /></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:7.05556px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-decoration-color:#000000;fill:#000000;stroke-width:2.64583;stop-color:#000000"
+       x="118.3819"
+       y="88.885963"
+       id="text1859"><tspan
+         sodipodi:role="line"
+         id="tspan1857"
+         style="font-size:7.05556px;stroke-width:2.64583"
+         x="118.3819"
+         y="88.885963" /></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:7.05556px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-align:justify;text-decoration-color:#000000;white-space:pre;shape-inside:url(#rect1883);display:inline;fill:#000000;stroke-width:2.64583;stop-color:#000000"
+       x="13.069265"
+       y="119.89577"
+       id="text1863"
+       transform="translate(0,5.7532638)"><tspan
+         x="12.149989"
+         y="124.4886"
+         id="tspan2912">DÉCOUPAGE DES CASES<tspan
+   dx="4.3373795"
+   id="tspan2910" /></tspan><tspan
+         x="11.269531"
+         y="131.54416"
+         id="tspan2914" /><tspan
+         x="11.269531"
+         y="138.59971"
+         id="tspan2918">DÉTECTION DU CONTENU DES CASES (DEEP LEARNING)<tspan
+   dx="2.4873505"
+   id="tspan2916" /></tspan><tspan
+         x="11.269531"
+         y="145.65527"
+         id="tspan2920" /><tspan
+         x="11.269531"
+         y="152.71083"
+         id="tspan2922">DÉTERMINATION DE L'ÉTAT DE LA PARTIE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:7.05556px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-decoration-color:#000000;fill:#000000;stroke-width:2.64583;stop-color:#000000"
+       x="10.72154"
+       y="133.69067"
+       id="text1867"><tspan
+         sodipodi:role="line"
+         style="font-size:7.05556px;stroke-width:2.64583"
+         x="10.72154"
+         y="133.69067"
+         id="tspan2014" /></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:7.05556px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';text-decoration-color:#000000;fill:#000000;stroke-width:2.64583;stop-color:#000000"
+       x="10.833414"
+       y="149.73337"
+       id="text1871"><tspan
+         sodipodi:role="line"
+         id="tspan1869"
+         style="font-size:7.05556px;stroke-width:2.64583"
+         x="10.833414"
+         y="149.73337" /></text>
+    <rect
+       style="fill:none;stroke:#008000;stroke-width:1.48908;stop-color:#000000"
+       id="rect1879"
+       width="59.358002"
+       height="40.468357"
+       x="8.3244047"
+       y="7.030961"
+       rx="1.6290619"
+       ry="1.7970558" />
+    <rect
+       style="fill:none;stroke:#008000;stroke-width:2.11853;stop-color:#000000"
+       id="rect1881"
+       width="113.44407"
+       height="57.429249"
+       x="88.403229"
+       y="34.646164"
+       rx="3.4212909"
+       ry="1.7319738" />
+    <rect
+       style="fill:none;stroke:#008000;stroke-width:2.49315;stop-color:#000000"
+       id="rect1883"
+       width="186.5043"
+       height="44.639858"
+       x="11.270156"
+       y="118.88251"
+       rx="5.8554711"
+       ry="1.4015087" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:9.87778px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy';text-align:justify;text-decoration-color:#000000;text-anchor:start;fill:#000000;stroke:none;stroke-width:2.64583;stop-color:#000000"
+       x="54.900402"
+       y="41.394325"
+       id="text2134"><tspan
+         sodipodi:role="line"
+         id="tspan2132"
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:9.87778px;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy';fill:#000000;stroke:none;stroke-width:2.64583"
+         x="54.900402"
+         y="41.394325">1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:9.87778px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy';text-align:justify;text-decoration-color:#000000;text-anchor:start;fill:#000000;stroke:none;stroke-width:2.64583;stop-color:#000000"
+       x="190.11691"
+       y="87.078896"
+       id="text2138"><tspan
+         sodipodi:role="line"
+         id="tspan2136"
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:9.87778px;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy';stroke-width:2.64583"
+         x="190.11691"
+         y="87.078896">2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:9.87778px;line-height:1;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy';text-align:justify;text-decoration-color:#000000;text-anchor:start;fill:#000000;stroke:none;stroke-width:2.64583;stop-color:#000000"
+       x="187.55325"
+       y="158.72034"
+       id="text2142"><tspan
+         sodipodi:role="line"
+         id="tspan2140"
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:9.87778px;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy';stroke-width:2.64583"
+         x="187.55325"
+         y="158.72034">3</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.64583;stop-color:#000000;marker-end:url(#Dot);stroke-dasharray:21.16663933,10.58331966;stroke-dashoffset:0"
+       d="M 79.550952,14.842683 C 119.27524,10.482579 141.13055,16.310154 146.86433,31.32913"
+       id="path2207"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.64583;stroke-dasharray:21.1666, 10.5833;stroke-dashoffset:0;stop-color:#000000;marker-end:url(#Dot)"
+       d="M 81.513031,72.868712 C 49.165023,75.788314 48.214753,95.795606 47.989892,116.19769"
+       id="path2807"
+       sodipodi:nodetypes="cc" />
+  </g>
+</svg>
